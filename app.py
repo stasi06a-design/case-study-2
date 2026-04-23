@@ -139,7 +139,7 @@ def get_metrics():
     try:
         hostname = request.args.get('hostname')
         metric = request.args.get('metric')
-        limit = request.args.get('limit', 100)
+        limit = int(request.args.get('limit', 100))
 
         query = """SELECT timestamp, hostname, metric, value, unit
                    FROM measurements WHERE 1=1"""
