@@ -43,7 +43,6 @@ def init_db():
     conn = get_connection()
     if DB_BACKEND == 'azure_sql':
         cursor = conn.cursor()
-        cursor.execute("DROP TABLE IF EXISTS measurements")
         cursor.execute("""
             CREATE TABLE measurements (
                 id        INT IDENTITY(1,1) PRIMARY KEY,
