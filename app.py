@@ -184,7 +184,14 @@ def get_metrics():
         logging.error(f"Error retrieving metrics: {str(e)}")
         return jsonify({'error': 'Internal server error'}), 500
 
+# Initialize DB on module load (works with both gunicorn and direct run)
+with app.app_context():
+    try:
+        init_db()
+        logging.info("Database initialised on startup")
+    except Exception as e:
+        logging.error(f"Database init failed: {str(e)}")
+
 if __name__ == '__main__':
-    init_db()
     logging.info("Starting KH Monitoring API")
     app.run(host='0.0.0.0', port=8000, debug=False)
