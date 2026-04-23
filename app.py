@@ -43,17 +43,15 @@ def init_db():
     conn = get_connection()
     if DB_BACKEND == 'azure_sql':
         cursor = conn.cursor()
+        cursor.execute("DROP TABLE IF EXISTS measurements")
         cursor.execute("""
-            IF NOT EXISTS (
-                SELECT * FROM sysobjects WHERE name='measurements' AND xtype='U'
-            )
             CREATE TABLE measurements (
                 id        INT IDENTITY(1,1) PRIMARY KEY,
-                timestamp TEXT    NOT NULL,
-                hostname  TEXT    NOT NULL,
-                metric    TEXT    NOT NULL,
-                value     FLOAT   NOT NULL,
-                unit      TEXT    NOT NULL
+                timestamp DATETIME2     NOT NULL,
+                hostname  VARCHAR(100)  NOT NULL,
+                metric    VARCHAR(50)   NOT NULL,
+                value     FLOAT         NOT NULL,
+                unit      VARCHAR(20)   NOT NULL
             )
         """)
         conn.commit()
